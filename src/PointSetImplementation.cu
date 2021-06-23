@@ -34,7 +34,6 @@ namespace cuNSearch
 		d_ReversedSortIndices.resize(m_ParticleCount);
 
 		d_CellOffsets.resize(numberOfCells);
-                printf("%lu\n", numberOfCells);
 		d_CellParticleCounts.resize(numberOfCells);
 	}
 

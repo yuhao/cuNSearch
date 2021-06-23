@@ -28,6 +28,11 @@
 #define USE_TIMING(x)
 #endif
 #include "Timing.h"
+#define PRINT_STATS true
+#define USE_TIMING(x) x;
+
+#define PRINT_STATS true
+#define USE_TIMING(x) x;
 
 #include "NotImplementedException.h"
 #include "cuNSearchDeviceData.h"

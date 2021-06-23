@@ -125,7 +125,9 @@ void testCuNSearch(const char* data_file)
     }
 
     Timing::reset();
+    Timing::startTiming("Total time");
     nsearch.find_neighbors();
+    Timing::stopTiming(true);
     Timing::printAverageTimes();
   }
 
@@ -164,7 +166,7 @@ int main(int argc, char* argv[])
     std::cout << "Real = double" << std::endl;
 #endif
 
-  cudaSetDevice(1);
+  //cudaSetDevice(1);
 
   std::string outfile;
   outfile = argv[1];

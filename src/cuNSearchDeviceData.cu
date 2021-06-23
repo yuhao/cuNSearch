@@ -16,6 +16,8 @@
 #define USE_TIMING(x)
 #endif
 #include "Timing.h"
+#define PRINT_STATS true
+#define USE_TIMING(x) x;
 
 #include "PointSetImplementation.h"
 #include "GridInfo.h"
