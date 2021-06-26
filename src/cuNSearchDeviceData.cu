@@ -281,7 +281,7 @@ namespace cuNSearch
 
 		if (PRINT_STATS)
 		{
-			int bytesToCopy = totalNeighborCount * 4 + particleCount * 2 * 4;
+			unsigned long bytesToCopy = totalNeighborCount * 4 + particleCount * 2 * 4;
 			printf("Total neighbors: %d \n", totalNeighborCount);
 			printf("Average neighbors: %d \n", totalNeighborCount / particleCount);
 			printf("Expected amount: %f MB \n", bytesToCopy / (1024.0f * 1024.0f));

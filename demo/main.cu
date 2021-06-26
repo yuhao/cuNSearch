@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
     std::cout << "Real = double" << std::endl;
 #endif
 
-  //cudaSetDevice(1);
+  cudaSetDevice(1);
 
   std::string outfile;
   outfile = argv[1];
