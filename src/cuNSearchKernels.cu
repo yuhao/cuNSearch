@@ -110,7 +110,8 @@ __global__ void kCountingSortIndices(
 	const uint *particleCellIndices,
 	const uint *cellOffsets,
 	const uint *sortIndicesSrc,
-	uint *sortIndicesDest
+	uint *sortIndicesDest,
+	uint *posInSortedPoints
 )
 {
 	uint particleIndex = blockIdx.x * blockDim.x + threadIdx.x;
@@ -120,6 +121,7 @@ __global__ void kCountingSortIndices(
 
 	uint sortIndex = sortIndicesSrc[particleIndex] + cellOffsets[gridCellIndex];
 	sortIndicesDest[sortIndex] = particleIndex;
+        posInSortedPoints[particleIndex] = sortIndex;
 }
 
 __global__ void kComputeCounts(
@@ -160,6 +162,8 @@ __global__ void kComputeCounts(
 				{
 					uint &neighborIndex = i;
 					Real3 diff = particles[reversedSortIndices[neighborIndex]] - particle;
+                                        // YZ: use this if the points are actually sorted and reordered in memory
+					//Real3 diff = particles[neighborIndex] - particle;
 					float squaredDistance = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
 					if (squaredDistance < GridInfo.SquaredSearchRadius && squaredDistance > 0.0)
 					{
@@ -218,6 +222,8 @@ __global__ void kNeighborhoodQueryWithCounts(
 				{
 					uint &neighborIndex = i;
 					Real3 diff = particles[reversedSortIndices[neighborIndex]] - particle;
+                                        // YZ: use this if the points are actually sorted and reordered in memory
+					//Real3 diff = particles[neighborIndex] - particle;
 					float squaredDistance = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
 					if (squaredDistance < GridInfo.SquaredSearchRadius && squaredDistance > 0.0)
 					{

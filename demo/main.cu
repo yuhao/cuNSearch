@@ -78,7 +78,8 @@ void testCuNSearch(const char* data_file)
     //std::cerr << positions[0][0] << ", " << positions[0][1] << ", " << positions[0][2] << std::endl;
   }
 
-  printf("Number of particles: %d \n", static_cast<int>(positions.size()));
+  unsigned int numPrims = static_cast<int>(positions.size());
+  printf("Number of particles: %d \n", numPrims);
 
   //Create neighborhood search instance
   NeighborhoodSearch nsearch(radius);
@@ -87,7 +88,7 @@ void testCuNSearch(const char* data_file)
   //Add point set from the test data
   auto pointSetIndex = nsearch.add_point_set(positions.front().data(), positions.size(), true, true);
 
-  for (size_t i = 0; i < 5; i++)
+  for (size_t i = 0; i < 1; i++)
   {
     if (i != 0)
     {
@@ -97,7 +98,7 @@ void testCuNSearch(const char* data_file)
 
     Timing::reset();
     Timing::startTiming("Total time");
-    nsearch.find_neighbors();
+      nsearch.find_neighbors();
     Timing::stopTiming(true);
     Timing::printAverageTimes();
   }

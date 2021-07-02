@@ -56,6 +56,7 @@ namespace cuNSearch
 		thrust::device_vector<uint> d_CellParticleCounts;
 		thrust::device_vector<uint> d_SortIndices;
 		thrust::device_vector<uint> d_ReversedSortIndices;
+		thrust::device_vector<uint> d_posInSortedPoints;
 
 		void prepareInternalDataStructures(GridInfo &gridInfo, size_t numberOfCells);
 	};

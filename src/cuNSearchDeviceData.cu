@@ -154,7 +154,8 @@ namespace cuNSearch
 			CudaHelper::GetPointer(pointSetImpl->d_ParticleCellIndices),
 			CudaHelper::GetPointer(pointSetImpl->d_CellOffsets),
 			CudaHelper::GetPointer(d_TempSortIndices),
-			CudaHelper::GetPointer(pointSetImpl->d_SortIndices)
+			CudaHelper::GetPointer(pointSetImpl->d_SortIndices),
+			CudaHelper::GetPointer(pointSetImpl->d_posInSortedPoints)
 			);
 
 		CudaHelper::DeviceSynchronize();
@@ -168,11 +169,21 @@ namespace cuNSearch
 			tempSequence.begin(),
 			pointSetImpl->d_ReversedSortIndices.begin());
 
+                // YZ: use this if the points are actually sorted and reordered in memory
+                //thrust::sort_by_key(pointSetImpl->d_posInSortedPoints.begin(), pointSetImpl->d_posInSortedPoints.end(), pointSetImpl->d_Particles.begin());
+
 		CudaHelper::CheckLastError();
 		CudaHelper::DeviceSynchronize();
 
 		pointSet.sortIndices.resize(pointSetImpl->d_SortIndices.size());
 		CudaHelper::MemcpyDeviceToHost(CudaHelper::GetPointer(pointSetImpl->d_SortIndices), pointSet.sortIndices.data(), pointSetImpl->d_SortIndices.size());
+
+                // YZ: this is just to confirm that d_ReversedSortIndices is exactly the same as d_SortIndices, and so the gather is redundant.
+                //thrust::host_vector<uint> temp_d_SortIndices(pointSet.sortIndices.size());
+                //thrust::copy(pointSetImpl->d_ReversedSortIndices.begin(), pointSetImpl->d_ReversedSortIndices.end(), temp_d_SortIndices.begin());
+                //for (unsigned int i = 0; i < pointSet.sortIndices.size(); i++) {
+                //  fprintf(stdout, "%u, %u\n", pointSet.sortIndices[i], temp_d_SortIndices[i]);
+                //}
 	}
 
 	void cuNSearchDeviceData::computeNeighborhood(PointSet &queryPointSet, PointSet &pointSet, uint neighborListEntry)
@@ -253,6 +264,7 @@ namespace cuNSearch
 
 		auto &neighborSet = queryPointSet.neighbors[neighborListEntry];
 
+                // YZ: this check will fail from the 2nd run onwards
 		if (neighborSet.NeighborCountAllocationSize < totalNeighborCount)
 		{
 			if (neighborSet.NeighborCountAllocationSize != 0)
