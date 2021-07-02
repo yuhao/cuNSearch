@@ -160,6 +160,8 @@ __global__ void kComputeCounts(
 				{
 					uint &neighborIndex = i;
 					Real3 diff = particles[reversedSortIndices[neighborIndex]] - particle;
+                                        // YZ: use this if the points are actually sorted and reordered in memory
+					//Real3 diff = particles[neighborIndex] - particle;
 					float squaredDistance = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
 					if (squaredDistance < GridInfo.SquaredSearchRadius && squaredDistance > 0.0)
 					{
@@ -218,6 +220,8 @@ __global__ void kNeighborhoodQueryWithCounts(
 				{
 					uint &neighborIndex = i;
 					Real3 diff = particles[reversedSortIndices[neighborIndex]] - particle;
+                                        // YZ: use this if the points are actually sorted and reordered in memory
+					//Real3 diff = particles[neighborIndex] - particle;
 					float squaredDistance = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
 					if (squaredDistance < GridInfo.SquaredSearchRadius && squaredDistance > 0.0)
 					{

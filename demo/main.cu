@@ -87,7 +87,7 @@ void testCuNSearch(const char* data_file)
   //Add point set from the test data
   auto pointSetIndex = nsearch.add_point_set(positions.front().data(), positions.size(), true, true);
 
-  for (size_t i = 0; i < 5; i++)
+  for (size_t i = 0; i < 1; i++)
   {
     if (i != 0)
     {
