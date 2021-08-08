@@ -101,5 +101,11 @@ if(BUILD_DEMO)
 	add_subdirectory(demo)
 endif(BUILD_DEMO)
 
+#YZ
+message(STATUS ${KNN})
+if(KNN)
+  #https://stackoverflow.com/questions/9017573/define-preprocessor-macro-through-cmake
+  add_compile_definitions(CUDA_MAX_NEIGHBORS=${KNN})
+endif()
 
 unset(USE_DOUBLE_PRECISION CACHE)

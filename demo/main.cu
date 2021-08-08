@@ -116,7 +116,7 @@ void testCuNSearch(const char* data_file)
   //Add point set from the test data
   auto pointSetIndex = nsearch.add_point_set(positions.front().data(), positions.size(), true, true);
 
-  for (size_t i = 0; i < 5; i++)
+  for (size_t i = 0; i < 3; i++)
   {
     if (i != 0)
     {
@@ -166,7 +166,9 @@ int main(int argc, char* argv[])
     std::cout << "Real = double" << std::endl;
 #endif
 
-  //cudaSetDevice(1);
+  int device_id = 1;
+  cudaSetDevice(device_id);
+  std::cerr << "\tUsing [" << device_id << "]: " << std::endl;
 
   std::string outfile;
   outfile = argv[1];
