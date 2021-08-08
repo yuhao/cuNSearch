@@ -67,47 +67,19 @@ void read_pc_data(const char* data_file) {
 
 void testCuNSearch(const char* data_file)
 {
-  //Generate test data
-  //Real min_x = std::numeric_limits<Real>::max();
-  //Real max_x = std::numeric_limits<Real>::min();
-  //positions.reserve(N * N * N);
-  //for (unsigned int i = 0; i < N; ++i)
-  //{
-  //  for (unsigned int j = 0; j < N; ++j)
-  //  {
-  //    for (unsigned int k = 0; k < N; ++k)
-  //    {
-  //      std::array<Real, 3> x = { {
-  //          r_omega * static_cast<Real>(2.0 * static_cast<double>(i) / static_cast<double>(N - 1) - 1.0),
-  //          r_omega * static_cast<Real>(2.0 * static_cast<double>(j) / static_cast<double>(N - 1) - 1.0),
-  //          r_omega * static_cast<Real>(2.0 * static_cast<double>(k) / static_cast<double>(N - 1) - 1.0) } };
-
-  //      Real l2 = x[0] * x[0] + x[1] * x[1] + x[2] * x[2];
-  //      if (l2 < r_omega2)
-  //      {
-  //        x[0] += static_cast<Real>(0.35);
-  //        x[1] += static_cast<Real>(0.35);
-  //        x[2] += static_cast<Real>(0.35);
-  //        positions.push_back(x);
-  //        printf("%lf, %lf, %lf\n", x[0], x[1], x[2]);
-  //        if (min_x > x[0])
-  //        {
-  //          min_x = x[0];
-  //        }
-  //        if (max_x < x[0])
-  //        {
-  //          max_x = x[0];
-  //        }
-  //      }
-  //    }
-  //  }
-  //}
-  //std::random_shuffle(positions.begin(), positions.end());
-
   // read points
   read_pc_data(data_file);
+  bool shuffle = false;
+  if (shuffle) {
+    unsigned seed = std::chrono::system_clock::now()
+                        .time_since_epoch()
+                        .count();
+    std::shuffle(std::begin(positions), std::end(positions), std::default_random_engine(seed));
+    //std::cerr << positions[0][0] << ", " << positions[0][1] << ", " << positions[0][2] << std::endl;
+  }
 
-  printf("Number of particles: %d \n", static_cast<int>(positions.size()));
+  unsigned int numPrims = static_cast<int>(positions.size());
+  printf("Number of particles: %d \n", numPrims);
 
   //Create neighborhood search instance
   NeighborhoodSearch nsearch(radius);
@@ -126,33 +98,10 @@ void testCuNSearch(const char* data_file)
 
     Timing::reset();
     Timing::startTiming("Total time");
-    nsearch.find_neighbors();
+      nsearch.find_neighbors();
     Timing::stopTiming(true);
     Timing::printAverageTimes();
   }
-
-  //Neighborhood search result test
-  //auto &pointSet = nsearch.point_set(0);
-  //auto points = pointSet.GetPoints();
-
-  //std::cout << "Validate results" << std::endl;
-  //for (unsigned int i = 0; i < pointSet.n_points(); i++)
-  //{
-  //  Real3 point = ((Real3*)points)[i];
-  //  auto count = pointSet.n_neighbors(0, i);
-  //  for (unsigned int j = 0; j < count; j++)
-  //  {
-  //    auto neighbor = pointSet.neighbor(0, i, j);
-  //    auto diff = point - ((Real3*)points)[neighbor];
-  //    float squaredLength = diff[0] * diff[0] + diff[1] * diff[1] + diff[2] * diff[2];
-  //    float distance = sqrt(squaredLength);
-
-  //    if (distance > radius)
-  //    {
-  //      throw std::runtime_error("Not a neighbor");
-  //    }
-  //  }
-  //}
 }
 
 int main(int argc, char* argv[])
@@ -176,5 +125,4 @@ int main(int argc, char* argv[])
 
   testCuNSearch(outfile.c_str());
   std::cout << "Finished Testing" << std::endl;
-  //getchar();
 }

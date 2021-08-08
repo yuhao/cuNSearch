@@ -32,6 +32,7 @@ namespace cuNSearch
 		d_ParticleCellIndices.resize(m_ParticleCount);
 		d_SortIndices.resize(m_ParticleCount);
 		d_ReversedSortIndices.resize(m_ParticleCount);
+		d_posInSortedPoints.resize(m_ParticleCount);
 
 		d_CellOffsets.resize(numberOfCells);
 		d_CellParticleCounts.resize(numberOfCells);

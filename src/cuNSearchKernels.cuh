@@ -40,7 +40,8 @@ __global__ void kCountingSortIndices(
 	const uint *particleCellIndices,
 	const uint *cellOffsets,
 	const uint *sortIndicesSrc,
-	uint *sortIndicesDest
+	uint *sortIndicesDest,
+	uint *posInSortedPoints
 );
 
 __global__ void kComputeCounts(
